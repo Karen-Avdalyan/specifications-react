@@ -1,0 +1,10 @@
+.Header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 20px 0 20px 0;
+}
+
+.Header > * {
+    margin: 0 200px;
+}
