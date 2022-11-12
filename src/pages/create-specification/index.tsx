@@ -40,6 +40,23 @@ export const CreateSpecification = ({ name }: any) => {
     setNewConfig(defaultConfig);
   };
 
+  const initialConfigs = () : ConfigurationUI[] => {
+    return [
+      {
+        name: "Engine",
+        value: "",
+        type: "string",
+        options: [],
+      },
+      {
+        name: "Color",
+        value: "",
+        type: "options",
+        options: ["red", "blue"],
+      }
+    ]
+  };
+
   const possibleConfigs = useMemo(
     () => configUIService.getConfigurationTypes(),
     []
@@ -47,9 +64,12 @@ export const CreateSpecification = ({ name }: any) => {
   useEffect(() => {
     // We have here name for future to be able implement edit
     // `name` takes here role for identificator
-    const configurations = name
-      ? specificationUIService.getSpecification(name)
-      : specificationUIService.getConfigurations();
+    let configurations;
+    if (name)
+      configurations = specificationUIService.getSpecification(name);
+    else
+      configurations = [...specificationUIService.getConfigurations(), ...initialConfigs()];
+
     setConfigurations(configurations);
   }, [name]);
 
