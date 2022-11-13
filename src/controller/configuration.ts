@@ -1,7 +1,8 @@
 import {Configuration, IConfiguration } from "../entities/configuration";
 import {IConfigurationType} from "../entities/types/IConfigurationType";
-import configurationMapping, { IConfigurationTypeMapping } from "../entities/configurationMapping";
+import configurationMapping, { defaultConfiguration, IConfigurationTypeMapping } from "../entities/configurationMapping";
 import { NotFoundException } from "../exceptions/notFoundException";
+import { ConfigurationUI } from "../entities/ui";
 
 export class ConfigurationController {
     configurationTypeMapping: IConfigurationTypeMapping[] = configurationMapping;
@@ -20,5 +21,9 @@ export class ConfigurationController {
             throw new NotFoundException(`${type} configuration type not found`, 'ConfigType');
         }
         return foundType.type;
+    }
+
+    getDefaultConfiguration(): ConfigurationUI[]  {
+        return defaultConfiguration;
     }
 }

@@ -8,7 +8,7 @@ export const isAnyEmpty = (configs: ConfigurationUI[]): boolean => {
   return false;
 };
 
-export const getDefaultConfig = (): ConfigurationUI => ({
+export const getNewConfig = (): ConfigurationUI => ({
   name: "",
   value: "",
   type: "",

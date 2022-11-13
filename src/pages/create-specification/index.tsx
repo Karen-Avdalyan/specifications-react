@@ -20,7 +20,7 @@ import { ConfigurationUIService } from "../../ui-service/configuration";
 import { SpecificationUIService } from "../../ui-service/specification";
 import { Configuration } from "../../components/configuration";
 import "./index.css";
-import { isAnyEmpty, getDefaultConfig } from "../../utils";
+import { isAnyEmpty, getNewConfig } from "../../utils";
 
 const configUIService = new ConfigurationUIService();
 const specificationUIService = new SpecificationUIService();
@@ -32,29 +32,12 @@ export const CreateSpecification = ({ name }: any) => {
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<boolean>(false);
   const [newConfig, setNewConfig] = useState<ConfigurationUI>(
-    getDefaultConfig()
+    getNewConfig()
   );
 
-  const setDefaultConfig = () => {
-    const defaultConfig = getDefaultConfig();
-    setNewConfig(defaultConfig);
-  };
-
-  const initialConfigs = () : ConfigurationUI[] => {
-    return [
-      {
-        name: "Engine",
-        value: "",
-        type: "string",
-        options: [],
-      },
-      {
-        name: "Color",
-        value: "",
-        type: "options",
-        options: ["red", "blue"],
-      }
-    ]
+  const setEmptyConfig = () => {
+    const newConfig = getNewConfig();
+    setNewConfig(newConfig);
   };
 
   const possibleConfigs = useMemo(
@@ -65,10 +48,12 @@ export const CreateSpecification = ({ name }: any) => {
     // We have here name for future to be able implement edit
     // `name` takes here role for identificator
     let configurations;
-    if (name)
+    if (name) {
       configurations = specificationUIService.getSpecification(name);
-    else
-      configurations = [...specificationUIService.getConfigurations(), ...initialConfigs()];
+    }
+    else {
+      configurations = [...specificationUIService.getConfigurations()];
+    }
 
     setConfigurations(configurations);
   }, [name]);
@@ -93,7 +78,7 @@ export const CreateSpecification = ({ name }: any) => {
     };
 
     setConfigurations([...configurations, newConfiguration]);
-    setDefaultConfig();
+    setEmptyConfig();
     onClose();
   };
 
@@ -124,7 +109,7 @@ export const CreateSpecification = ({ name }: any) => {
     })
 
     specificationUIService.createSpecification(configurations);
-    setDefaultConfig();
+    setEmptyConfig();
     setError("");
     setSuccess(true);
   };

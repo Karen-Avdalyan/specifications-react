@@ -47,13 +47,7 @@ export class SpecificationController {
   getConfigurations(): ConfigurationUI[] {
     const configs = this.repo.getLatest();
     if (!configs) {
-      return [
-        {
-          name: "name",
-          value: "",
-          type: "string",
-        },
-      ];
+      return this.configController.getDefaultConfiguration();
     }
 
     return this.repo.getLatest().configurations.map((c) => ({
